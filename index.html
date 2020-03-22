@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Vue.js App</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <h1>Warikan</h1>
+  <div id="app">
+    <div>
+      今日は何人？？
+    </div>
+    <select v-model="members">
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+    <div v-if="members">
+      <dl>
+        <dt>合計金額</dt>
+        <dd>{{ number }}</dd>
+      </dl>
+      <div class="block--buttons">
+        <div v-for="item in numbers" class="button button-basic">
+          <button v-on:click="displayNumber(item)">{{ item }}</button>
+        </div>
+        <div class="button button-basic">
+          <button v-on:click="displayNumber('.')">.</button>
+        </div>
+        <div class="button button-basic">
+          <button v-on:click="clearNumber">クリア</button>
+        </div>
+      </div>
+      <div v-if="number">
+        <dl>
+          <dt>一人あたり</dt>
+          <dd>{{ costPerPerson }}円です〜</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js">
+    var app = new Vue({
+    el: '#app',
+    data: {
+      number: 0,
+      numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      members: false
+    },
+    methods: {
+      displayNumber: function(n){
+        if (n=='.' && this.number.match(/\./)){
+          return
+        } else if (this.number==0){
+          this.number = n
+          return
+        }
+        this.number = String(this.number) + String(n)
+      },
+      clearNumber: function(){
+        this.number = 0
+      }
+    },
+    computed: {
+      costPerPerson: function(){
+        return this.number / this.members
+      }
+    }
+  })
+  </script>
+</body>
+</html>
